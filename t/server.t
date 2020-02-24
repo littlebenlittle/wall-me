@@ -10,9 +10,8 @@ use HTTP::Request;
 use LWP::UserAgent;
 use Test::More;
 
-my $srv = Server->new;
 unless (fork) {
-    $srv->run;
+    system "perl main.pl";
     exit 0;
 }
 # my $req = HTTP::Request->new(GET => 'http://localhost:8080');
