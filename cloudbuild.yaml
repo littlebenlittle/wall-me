@@ -1,11 +1,10 @@
 
-options:
-  env:
-    - 'TAG=gcr.io/hosting-38998/wallme'
+substitutions:
+  _TAG: gcr.io/hosting-38998/wallme
 
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: [ "builds", "submit", "--tag", "$TAG" ]
+    args: [ "builds", "submit", "--tag", "${_TAG}" ]
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: [ 'run', 'deploy', 'wallme', '--image', '$TAG' ]
+    args: [ 'run', 'deploy', 'wallme', '--image', '${_TAG}' ]
 
