@@ -6,7 +6,7 @@ steps:
   - name: 'benlittle6/carton'
     args: [ "install" ]
   - name: 'benlittle6/prove'
-    args: [ "-I", "/work/local/lib/perl5" ]
+    args: [ ]
   - name: 'gcr.io/cloud-builders/docker'
     args: [ "build", "--tag", "${_TAG}", "." ]
   - name: 'gcr.io/cloud-builders/docker'
