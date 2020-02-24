@@ -1,6 +1,6 @@
 
 options:
-  env
+  env:
     - 'TAG=gcr.io/hosting-38998/wallme'
 
 steps:
