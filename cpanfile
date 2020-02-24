@@ -1,0 +1,2 @@
+requires 'HTTP::Server::Simple';
+
