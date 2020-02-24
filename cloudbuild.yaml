@@ -1,11 +1,12 @@
 
 substitutions:
   _TAG: gcr.io/hosting-38998/wallme
-  _CLOUDRUN_REGION: us-central1
 
 steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: [ "builds", "submit", "--tag", "${_TAG}" ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ "build", "--tag", "${_TAG}", "." ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ "push", "${_TAG}" ]
   - name: 'gcr.io/cloud-builders/gcloud'
     args: 
       - 'run'
@@ -14,7 +15,7 @@ steps:
       - '--image'
       - '${_TAG}'
       - '--region'
-      - '${_CLOUDRUN_REGION}'
+      - '${us-central1}'
       - '--platform'
       - 'managed'
 
