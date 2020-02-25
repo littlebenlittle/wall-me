@@ -13,6 +13,10 @@ def USER_EMAIL():
     assert re.match(email_regex, os.environ['USER_EMAIL'])
     return os.environ['USER_EMAIL']
 
+@pytest.fixture
+def gmail():
+    return get_gmail_client()
+
 def test_extract_content():
     '''We can decode base64 string received from pubsub'''
     event = {
@@ -55,12 +59,17 @@ def test_validate_wrong_emailAddress(USER_EMAIL):
     assert not validate(data)
 
 def test_get_token():
-    uri = 'gs://wallme/v1/test/creds'
+    '''We can get the token from storage'''
+    uri = 'gs://wallme/v1/token.json'
     token = get_token(uri)
-    assert token.scopes == ['https://www.googleapis.com/auth/gmail.readonly']
+    import hashlib
+    m = hashlib.sha256()
+    m.update(token.client_id.encode('utf8'))
+    m.update(token.client_secret.encode('utf8'))
+    assert m.digest() == b'\xe1\xcds\x05\x01)BQ\x840\x18\x8e\x8fh\xce\x8e\xe8\xec\x7f\xc6A\xfc\xc1wn\xed\x0b\xb7g\xa26K'
 
-def test_get_gmail_client():
-    gmail = get_gmail_client()
+def test_get_gmail_client(gmail):
+    '''We can build the gmail client'''
     assert gmail
     assert isinstance(gmail, Resource)
 
