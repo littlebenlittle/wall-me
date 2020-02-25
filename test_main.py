@@ -1,7 +1,7 @@
 
 import pytest
 import base64
-from main import extract_content, validate, get_gmail_client
+from main import extract_content, validate, get_gmail_client, get_token
 from googleapiclient.discovery import Resource
 
 @pytest.fixture
@@ -29,6 +29,7 @@ def test_validate(USER_EMAIL):
     }
     assert validate(data)
 
+# TODO: fix typos in docstrings 2020-02-25T10:28:13Z
 def test_validate_no_emailAddress():
     '''An data obj with no emailAddress key is nixed'''
     data = {
@@ -53,7 +54,13 @@ def test_validate_wrong_emailAddress(USER_EMAIL):
     }
     assert not validate(data)
 
+def test_get_token():
+    uri = 'gs://wallme/v1/test/creds'
+    token = get_token(uri)
+    assert token.scopes == ['https://www.googleapis.com/auth/gmail.readonly']
+
 def test_get_gmail_client():
     gmail = get_gmail_client()
+    assert gmail
     assert isinstance(gmail, Resource)
 
