@@ -1,10 +1,28 @@
+substitutions:
+  _TEST_IMAGE_TAG: 'gcri.io/hosting-38998/wallme/pytest'
 
 steps:
+  - name: 'gcr.io/hosting-38998/docker'
+    args:
+      - 'build'
+      - '--file'
+      - 'Dockerfile.pytest'
+      - '--tag'
+      - '${_TEST_IMAGE_TAG}'
+      - '.'
+  - name: 'gcr.io/hosting-38998/docker'
+    args:
+      - 'push'
+      - '${_TEST_IMAGE_TAG}'
+  - name: '${_TEST_IMAGE_TAG}'
+    args: [ ]
   - name: 'gcr.io/cloud-builders/gcloud'
     args: 
       - 'functions'
       - 'deploy'
       - 'wallme'
+      - '--trigger-topic'
+      - 'gmail-alerts'
       - '--runtime'
       - 'python37'
       - '--region'
