@@ -12,6 +12,7 @@ export WORKDIR=$PWD
 prove="docker run -it --rm -u $(id -u) \
 --workdir /work \
 --volume  $WORKDIR:/work \
+--env     USER_EMAIL=test@example.com \
 benlittle6/pytest"
 ```
 
