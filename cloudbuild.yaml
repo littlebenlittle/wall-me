@@ -1,25 +1,18 @@
 
-substitutions:
-  _TAG: gcr.io/hosting-38998/wallme
-
 steps:
-  - name: 'benlittle6/carton'
-    args: [ "install" ]
-  - name: 'benlittle6/prove'
-    args: [ ]
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [ "build", "--tag", "${_TAG}", "." ]
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [ "push", "${_TAG}" ]
+  - name: 'benlittle6/python:3.8'
+    args: [ "python", "setup.py" ]
   - name: 'gcr.io/cloud-builders/gcloud'
     args: 
-      - 'run'
+      - 'functions'
       - 'deploy'
       - 'wallme'
-      - '--image'
-      - '${_TAG}'
+      - '--runtime'
+      - 'python37'
       - '--region'
       - 'us-central1'
-      - '--platform'
-      - 'managed'
+      - '--memory'
+      - '128MB'
+      - '--source'
+      - '.'
 

@@ -12,6 +12,6 @@ export WORKDIR=$PWD
 prove="docker run -it --rm -u $(id -u) \
 --workdir /work \
 --volume  $WORKDIR:/work \
-benlittle6/prove"
+benlittle6/pytest"
 ```
 
