@@ -1,0 +1,6 @@
+FROM benlittle6/pytest
+
+WORKDIR /setup
+COPY requirements.txt .
+RUN  pip install -r requirements.txt
+
