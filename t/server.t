@@ -14,10 +14,8 @@ unless (fork) {
     system "perl main.pl";
     exit 0;
 }
-# my $req = HTTP::Request->new(GET => 'http://localhost:8080');
 sleep 1;
 my $ua = LWP::UserAgent->new(timeout => 1);
-# my $res = $ua->request($req);
 my $res = $ua->get('http://localhost:8080');
 ok( $res->is_success );
 
