@@ -1,7 +1,5 @@
 
 steps:
-  - name: 'benlittle6/python:3.8'
-    args: [ "python", "setup.py" ]
   - name: 'gcr.io/cloud-builders/gcloud'
     args: 
       - 'functions'
