@@ -1,7 +1,7 @@
 
 import pytest
 import base64
-from main import extract_content, validate, get_gmail_client, get_token
+from main import extract_content, validate, get_gmail, get_token
 from googleapiclient.discovery import Resource
 
 @pytest.fixture
@@ -15,7 +15,7 @@ def USER_EMAIL():
 
 @pytest.fixture
 def gmail():
-    return get_gmail_client()
+    return get_gmail()
 
 def test_extract_content():
     '''We can decode base64 string received from pubsub'''
@@ -68,7 +68,7 @@ def test_get_token():
     m.update(token.client_secret.encode('utf8'))
     assert m.digest() == b'\xe1\xcds\x05\x01)BQ\x840\x18\x8e\x8fh\xce\x8e\xe8\xec\x7f\xc6A\xfc\xc1wn\xed\x0b\xb7g\xa26K'
 
-def test_get_gmail_client(gmail):
+def test_get_gmail(gmail):
     '''We can build the gmail client'''
     assert gmail
     assert isinstance(gmail, Resource)

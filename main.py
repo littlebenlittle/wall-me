@@ -42,7 +42,7 @@ def get_token(uri):
     )
     return creds
 
-def get_gmail_client():
+def get_gmail():
     from googleapiclient.discovery import build
     creds = get_token('gs://wallme/v1/token.json')
     gmail = build('gmail', 'v1', credentials=creds)
