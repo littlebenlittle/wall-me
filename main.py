@@ -23,7 +23,7 @@ def validate(data):
 
 def wallme(event, context):
     data = extract_content(event)
-    validate(data)
+    if not validate(data):
+        return
     historyId = data['historyId']
-    return pubsub_message
 
