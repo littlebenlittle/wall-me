@@ -18,8 +18,9 @@ def USER_EMAIL():
 def gmail():
     return get_gmail()
 
-def test_extract_content(pubsub_event):
+def test_extract_content():
     '''We can decode base64 string received from pubsub'''
+    pubsub_event = { "data": "eyJlbWFpbEFkZHJlc3MiOiAidXNlckBleGFtcGxlLmNvbSIsICJoaXN0b3J5SWQiOiAiMTIzNDU2Nzg5In0=" }
     res = extract_content(pubsub_event)
     assert res["emailAddress"] == "user@example.com"
 
