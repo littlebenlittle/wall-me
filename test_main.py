@@ -1,7 +1,8 @@
 
 import pytest
 import base64
-from main import extract_content, validate, get_gmail, get_token
+import Courier
+from main import extract_content, validate, get_gmail, get_token, wallme
 from googleapiclient.discovery import Resource
 
 @pytest.fixture
@@ -17,12 +18,9 @@ def USER_EMAIL():
 def gmail():
     return get_gmail()
 
-def test_extract_content():
+def test_extract_content(pubsub_event):
     '''We can decode base64 string received from pubsub'''
-    event = {
-        "data": "eyJlbWFpbEFkZHJlc3MiOiAidXNlckBleGFtcGxlLmNvbSIsICJoaXN0b3J5SWQiOiAiOTg3NjU0MzIxMCJ9",
-    }
-    res = extract_content(event)
+    res = extract_content(pubsub_event)
     assert res["emailAddress"] == "user@example.com"
 
 def test_validate(USER_EMAIL):
@@ -69,8 +67,40 @@ def test_get_token():
     m.update(token.client_secret.encode('utf8'))
     assert m.digest() == b'\xe1\xcds\x05\x01)BQ\x840\x18\x8e\x8fh\xce\x8e\xe8\xec\x7f\xc6A\xfc\xc1wn\xed\x0b\xb7g\xa26K'
 
+@pytest.mark.skip(reason='this is an integration test')
 def test_get_gmail(gmail):
     '''We can build the gmail client'''
     assert gmail
     assert isinstance(gmail, Resource)
+
+def test_wallme():
+    '''Wallme successfully sends a message'''
+    pubsub_event = { "data": "eyJlbWFpbEFkZHJlc3MiOiAidXNlckBleGFtcGxlLmNvbSIsICJoaXN0b3J5SWQiOiAiMTIzNDU2Nzg5In0=" }
+    wallme(pubsub_event, None)
+    sent_message = \
+"""
+from: user@example.com
+
+⭐ This message contains
+\tmultiple lines.
+"""
+    assert sent_message in Courier.bag
+
+def test_wallme_2():
+    '''Wallme successfully sends another message'''
+    pubsub_event = { "data": "eyJlbWFpbEFkZHJlc3MiOiAib3RoZXJAbm93aGVyZS5uZXQiLCAiaGlzdG9yeUlkIjogIjk4NzY1NDMyMSJ9" }
+    wallme(pubsub_event, None)
+    sent_message = \
+"""
+from: other@nowhere.net
+
+This is just a regular old message
+"""
+    assert sent_message in Courier.bag
+
+def test_Courier():
+    '''We can attach messages to the Courier'''
+    message = "test message"
+    Courier.attach(message)
+    assert message in Courier.bag
 
