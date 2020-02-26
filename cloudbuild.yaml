@@ -2,7 +2,7 @@ substitutions:
   _TEST_IMAGE_TAG: 'gcri.io/hosting-38998/wallme/pytest'
 
 steps:
-  - name: 'gcr.io/hosting-38998/docker'
+  - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '--file'
@@ -10,7 +10,7 @@ steps:
       - '--tag'
       - '${_TEST_IMAGE_TAG}'
       - '.'
-  - name: 'gcr.io/hosting-38998/docker'
+  - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
       - '${_TEST_IMAGE_TAG}'
