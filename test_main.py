@@ -58,6 +58,7 @@ def test_validate_wrong_emailAddress(USER_EMAIL):
     }
     assert not validate(data)
 
+@pytest.mark.skip(reason='this is an integration test')
 def test_get_token():
     '''We can get the token from storage'''
     uri = 'gs://wallme/v1/token.json'
